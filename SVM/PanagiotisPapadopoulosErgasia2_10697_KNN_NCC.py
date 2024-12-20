@@ -6,11 +6,10 @@ from tensorflow.keras.datasets import cifar10
 from sklearn.metrics import accuracy_score
 
 
-# Step 1: Load CIFAR-10 dataset
+# Load CIFAR-10 dataset
 (X_train, y_train), (X_test, y_test) = cifar10.load_data()
 
-
-# Step 3: Normalize the pixel values to the range [0, 1]
+# Normalize the pixel values to the range [0, 1]
 X_train = X_train.astype('float32') / 255.0
 X_test = X_test.astype('float32') / 255.0
 
@@ -58,10 +57,10 @@ print(f"NCC Accuracy: {accuracy:.2f}")
 # knn = KNeighborsClassifier(n_neighbors=3, n_jobs=-1)
 # knn.fit(X_train, y_train)
 
-# # Step 7: Make predictions on the test set
+# # Make predictions on the test set
 # y_pred = knn.predict(X_test)
 
-# # Step 8: Evaluate the model
+# # Evaluate the model
 # print("Classification Report:")
 # print(classification_report(y_test, y_pred))
 
@@ -78,7 +77,5 @@ print(f"NCC Accuracy: {accuracy:.2f}")
 # plt.ylabel("True Label")
 # plt.title("Confusion Matrix")
 # plt.show()
-
-
 
 # ------------------------------------------  KNN Classifier END  -------------------------------------------------

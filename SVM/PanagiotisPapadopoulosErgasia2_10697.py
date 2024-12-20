@@ -12,34 +12,34 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import time
 
-# Step 1: Load CIFAR-10 dataset
+# Load the CIFAR-10 dataset
 (X_train, y_train), (X_test, y_test) = cifar10.load_data()
 
-
-# Step 3: Normalize the pixel values to the range [0, 1]
+# Normalize pixel values to [0, 1]
 X_train = X_train.astype('float32') / 255.0
 X_test = X_test.astype('float32') / 255.0
 
-# Step 4: Flatten the images from 32x32x3 to 3072-dimensional vectors (3 channels * 32 * 32)
+# Flatten the images into 1D vectors (32x32x3 -> 3072)
 X_train = X_train.reshape(X_train.shape[0], -1)
 X_test = X_test.reshape(X_test.shape[0], -1)
 
-print('Performing standardization')
-# Step 5: Standardize the data (mean 0, variance 1)
+print('Standardizing data...')
+# Standardize features to have mean 0 and variance 1
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
-# Reduce dimensions to 2D for visualization
-pca = PCA(n_components=0.99)  
+# Reduce dimensions using PCA (keeping 99% of the variance)
+pca = PCA(n_components=0.99)
 X_train = pca.fit_transform(X_train)
 X_test = pca.transform(X_test)
 
-
+# Toggle grid search mode
 gridSearch = False
 
-if(not gridSearch):
+if not gridSearch:
 
+    # Train and evaluate a single SVM model
     start_time = time.time()
 
     # Create the SVM model
@@ -47,20 +47,17 @@ if(not gridSearch):
     svm.fit(X_train, y_train)
 
 
-    # Step 8: Evaluate the final model on the test data
+    # Evaluate the final model on the test data
     y_pred_test = svm.predict(X_test)
     print("Test Accuracy:", accuracy_score(y_test, y_pred_test))
     print("Classification Report (Test):")
     print(classification_report(y_test, y_pred_test))
 
-
-
-    
-
+   # Measure training time
     end_time = time.time()
     print("training time: " + str(-start_time + end_time))
 
-    # Step 9: Plot the confusion matrix for test results
+    # Plot the confusion matrix for test results
     cm = confusion_matrix(y_test, y_pred_test)
     plt.figure(figsize=(10, 8))
     sns.heatmap(cm, annot=True, fmt='d', cmap='Blues', xticklabels=range(10), yticklabels=range(10))
@@ -83,10 +80,7 @@ else:
     # Value 3: sigmoid Kernel
 
     # The actual parameter grid is shown below
-
     gridIndex = 3
-
-
 
     # Define the parameter grid
     param_grid = [
@@ -114,19 +108,13 @@ else:
         }
     ]
 
-
-
-    
-
     # -------------------------------------- Training --------------------------------------------- #
     start_time = time.time()
 
-
-    # Step 6: Train an SVM classifier with RBF kernel
-    svm = SVC(max_iter=2)  
+    # Train an SVM classifier with RBF kernel
+    svm = SVC(max_iter=60)  
     svm.fit(X_train, y_train)  
 
-    
     cv = StratifiedShuffleSplit(n_splits=5, test_size=0.2, random_state=42)
 
     # Create the GridSearchCV object
@@ -139,7 +127,7 @@ else:
     # ----------------------------------------------- Results ------------------------------------------------ #
     end_time = time.time()
     print("training time: " + str(end_time - start_time))
-    
+
     results = grid_search.cv_results_
     print(results)
 
@@ -156,11 +144,11 @@ else:
     print(f"Test Accuracy: {test_accuracy:.4f}")
 
 
-    # Step 7: Make predictions on the test set
+    # Make predictions on the test set
     y_pred = grid_search.best_estimator_.predict(X_test)
     y_pred = svm.predict(X_test)
 
-    # Step 8: Evaluate the SVM classifier
+    # Evaluate the SVM classifier
     print("Classification report on validation data:")
     print(classification_report(y_test, y_pred))
 
@@ -176,8 +164,6 @@ else:
     # ------------------------------------ HeatMap of C and Gamma ------------------------------------------- #
 
     if(param_grid == 1):
-
-
         # Convert the GridSearchCV results to a DataFrame
         results_df = pd.DataFrame(grid_search.cv_results_)
         pd.set_option('display.max_rows', None)  # Show all rows
@@ -281,3 +267,4 @@ else:
 
             # Show the heatmap
             plt.show()
+
