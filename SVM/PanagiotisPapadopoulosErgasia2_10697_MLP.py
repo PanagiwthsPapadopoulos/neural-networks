@@ -74,30 +74,7 @@ for k in range (len(batch_sizes)):
             resultsAdam.append({'learning_rate': learning_rates[j], 'neurons': neurons[i], 'batch_size': batch_sizes[k], 'test_accuracy': test_accuracy})
 
 
-            # -------------------------------------------------  SGD  ----------------------------------------------------------------#
-
-
-            # Δημιουργία MLP μοντέλου
-            model = Sequential([
-                Flatten(input_shape=(32, 32, 3)),  # Μετατροπή εικόνων σε επίπεδο διάνυσμα
-                Dense(neurons[i], activation='relu'),    # Κρυφό επίπεδο
-                Dense(10, activation='linear')    # Γραμμική έξοδος για Hinge Loss
-            ])
-
-            # Ορισμός του optimizer και της συνάρτησης απώλειας
-            optimizer = SGD(learning_rate=learning_rates[j], momentum = 0.9)
-            model.compile(optimizer=optimizer, loss='categorical_hinge', metrics=['accuracy'])
-
-            # Εκπαίδευση του μοντέλου
-            history = model.fit(x_train, y_train, epochs=EPOCHS, batch_size=batch_sizes[k], validation_data=(x_val, y_val), verbose=0)
-
-            # Αξιολόγηση στο test set
-            test_loss, test_acc = model.evaluate(x_test, y_test)
-            print(f"Test Accuracy: {test_acc:.2f}")
-
-            test_loss, test_accuracy = model.evaluate(x_test, y_test)
-            # resultsSGD.append((f'Accuracy vs. Epochs for SGD Optimizer, {neurons[i]} neurons at the hidden layer, {learning_rates[k]} learning rate and {batch_sizes[k]} batch size', history, test_accuracy))
-            resultsAdam.append({'learning_rate': learning_rates[j], 'neurons': neurons[i], 'batch_size': batch_sizes[k], 'test_accuracy': test_accuracy})
+            
 
 
 end_time = time.time()
@@ -134,29 +111,6 @@ for batch in batch_values:
     
     
 
-results_df = pd.DataFrame(resultsSGD)
-
-batch_values = results_df['batch_size'].unique()
-
-print(results_df)
-
-for batch in batch_values:
-
-    subset = results_df[(results_df['batch_size'] == batch)]
-
-    pivot_table = results_df.pivot_table(
-        index="learning_rate",          # Row labels (C values)
-        columns="neurons",    # Column labels (gamma values)
-        values="test_accuracy"  # Values to display (mean test score)
-    )
-    
-    
-    
-    sns.heatmap(pivot_table, annot=True, fmt=".4f", cmap="coolwarm")
-    plt.title(f"Hyperparameter Heatmap (Learning Rate vs. No of Neurons) for optimizer SGD & batch size {batch}")
-    plt.xlabel("No of Neurons")
-    plt.ylabel("Learning Rate")
-    plt.show()
     
     
     
