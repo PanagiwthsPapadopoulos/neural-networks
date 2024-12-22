@@ -23,14 +23,13 @@ X_test = X_test.astype('float32') / 255.0
 X_train = X_train.reshape(X_train.shape[0], -1)
 X_test = X_test.reshape(X_test.shape[0], -1)
 
-print('Standardizing data...')
 # Standardize features to have mean 0 and variance 1
 scaler = StandardScaler()
 X_train = scaler.fit_transform(X_train)
 X_test = scaler.transform(X_test)
 
 # Reduce dimensions using PCA (keeping 99% of the variance)
-pca = PCA(n_components=0.99)
+pca = PCA(n_components=0.90)
 X_train = pca.fit_transform(X_train)
 X_test = pca.transform(X_test)
 
