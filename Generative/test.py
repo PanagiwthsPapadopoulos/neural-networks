@@ -9,7 +9,7 @@ from tensorflow.keras.losses import MeanSquaredError
 custom_objects = {'mse': MeanSquaredError()}
 
 # Load the model from the .h5 file
-model = load_model('mnist_addition_model1.h5', custom_objects=custom_objects)
+model = load_model('mnist_addition_model1-100epochs.h5', custom_objects=custom_objects)
 
 # Load MNIST dataset
 (train_images, train_labels), (test_images, test_labels) = mnist.load_data()

@@ -182,13 +182,13 @@ history = model.fit(
     [X1, X2],              # Input data: two inputs
     [Y1, Y2],              # Target data: two outputs
     batch_size=32,         # Batch size: 32 samples per batch
-    epochs=20,             # Train for 10 epochs
+    epochs=100,             # Train for 10 epochs
     validation_split=0.2,  # Use 20% of the data for validation
     verbose=0             # Print progress during training
 )
 
 # Save the model
-model.save('mnist_addition_model1.h5')
+model.save('mnist_addition_model1-100epochs.h5')
 
 # Generate a single example
 test_input1 = X1[0:1]  # First image in the dataset
