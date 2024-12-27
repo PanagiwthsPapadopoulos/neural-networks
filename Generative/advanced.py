@@ -1,15 +1,17 @@
 import random
+import time
 from matplotlib import pyplot as plt
 import deeplake
 import numpy as np
 from tensorflow.keras.datasets import mnist
 import cv2
 from tensorflow.keras.models import Model
-from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Dense, concatenate, Reshape, Conv2DTranspose
+from tensorflow.keras.layers import Input, Conv2D, MaxPooling2D, Flatten, Dense, concatenate, Reshape, Conv2DTranspose, Multiply
 from tensorflow.keras.optimizers import Adam
 from sklearn.decomposition import PCA
 from tensorflow.keras.preprocessing.image import img_to_array, array_to_img
 from tensorflow.keras.layers import Dropout
+import tensorflow as tf
 
 
 
@@ -219,220 +221,72 @@ def build_decoder(latent, dense_size, output_shape, transposed_conv_layers, filt
 
 
 
+start_time = time.time()
 
 MULTIPLE_TRAINING = True
 
 if MULTIPLE_TRAINING:
     # Define fully parameterized configurations
     configurations = [
-        # {
-        #     'input_shape': (28, 28, 1),
-        #     'conv_layers': 3,
-        #     'filters': [32, 64, 128],
-        #     'kernel_size': [3, 3, 3],
-        #     'pool_size': [2, 2, 2],
-        #     'activation': 'relu',
-        #     'latent_size': 256,
-        #     'dense_size': 7 * 7 * 128,
-        #     'output_shape': (7, 7, 128),
-        #     'transposed_conv_layers': 3,
-        #     'transposed_filters': [128, 64, 32],
-        #     'transposed_kernel_size': [3, 3, 3],
-        #     'transposed_strides': [2, 2, 1],
-        #     'learning_rate': 0.001,
-        #     'batch_size': 32,
-        #     'epochs': 30
-        # },
-        # {
-        #     'input_shape': (28, 28, 1),
-        #     'conv_layers': 3,
-        #     'filters': [32, 64, 128],
-        #     'kernel_size': [3, 3, 3],
-        #     'pool_size': [2, 2, 2],
-        #     'activation': 'relu',
-        #     'latent_size': 256,
-        #     'dense_size': 7 * 7 * 128,
-        #     'output_shape': (7, 7, 128),
-        #     'transposed_conv_layers': 3,
-        #     'transposed_filters': [128, 64, 32],
-        #     'transposed_kernel_size': [3, 3, 3],
-        #     'transposed_strides': [2, 2, 1],
-        #     'learning_rate': 0.01,
-        #     'batch_size': 32,
-        #     'epochs': 30
-        # },
-        # {
-        #     'input_shape': (28, 28, 1),
-        #     'conv_layers': 3,
-        #     'filters': [32, 64, 128],
-        #     'kernel_size': [3, 3, 3],
-        #     'pool_size': [2, 2, 2],
-        #     'activation': 'relu',
-        #     'latent_size': 256,
-        #     'dense_size': 7 * 7 * 128,
-        #     'output_shape': (7, 7, 128),
-        #     'transposed_conv_layers': 3,
-        #     'transposed_filters': [128, 64, 32],
-        #     'transposed_kernel_size': [3, 3, 3],
-        #     'transposed_strides': [2, 2, 1],
-        #     'learning_rate': 0.1,
-        #     'batch_size': 32,
-        #     'epochs': 30
-        # },
+       
         {
             'input_shape': (28, 28, 1),
-            'conv_layers': 4,
-            'filters': [32, 64, 128, 256],
+            'conv_layers': 4,  # Increased number of convolutional layers
+            'filters': [32, 64, 128, 256],  # Added an extra layer with higher filter count
             'kernel_size': [3, 3, 3, 3],
             'pool_size': [2, 2, 2, 2],
             'activation': 'relu',
-            'latent_size': 256,
-            'dense_size': 7 * 7 * 128,
-            'output_shape': (7, 7, 128),
-            'transposed_conv_layers': 3,
-            'transposed_filters': [128, 64, 32],
+            'latent_size': 128,  # Increased latent size for a richer latent space
+            'dense_size': 7 * 7 * 256,  # Recalculated dense size (based on the final output dimensions of the encoder)
+            'output_shape': (7, 7, 256),  # Adjusted output shape to match the dense size
+            'transposed_conv_layers': 3,  # Three transposed convolutional layers
+            'transposed_filters': [256, 128, 64],
             'transposed_kernel_size': [3, 3, 3],
-            'transposed_strides': [2, 2, 1],
+            'transposed_strides': [2, 2, 1],  # Adjusted strides to ensure correct output size
             'learning_rate': 0.001,
             'batch_size': 32,
-            'epochs': 30
-        },{
+            'epochs': 20,  # Reduced to match the updated requirements
+            'operator_weight': 5.0
+        },
+        {
             'input_shape': (28, 28, 1),
-            'conv_layers': 4,
-            'filters': [32, 64, 128, 256],
+            'conv_layers': 4,  # Increased number of convolutional layers
+            'filters': [32, 64, 128, 256],  # Added an extra layer with higher filter count
             'kernel_size': [3, 3, 3, 3],
             'pool_size': [2, 2, 2, 2],
             'activation': 'relu',
-            'latent_size': 256,
-            'dense_size': 7 * 7 * 128,
-            'output_shape': (7, 7, 128),
-            'transposed_conv_layers': 3,
-            'transposed_filters': [128, 64, 32],
+            'latent_size': 128,  # Increased latent size for a richer latent space
+            'dense_size': 7 * 7 * 256,  # Recalculated dense size (based on the final output dimensions of the encoder)
+            'output_shape': (7, 7, 256),  # Adjusted output shape to match the dense size
+            'transposed_conv_layers': 3,  # Three transposed convolutional layers
+            'transposed_filters': [256, 128, 64],
             'transposed_kernel_size': [3, 3, 3],
-            'transposed_strides': [2, 2, 1],
-            'learning_rate': 0.01,
-            'batch_size': 32,
-            'epochs': 30
-        },{
-            'input_shape': (28, 28, 1),
-            'conv_layers': 4,
-            'filters': [32, 64, 128, 256],
-            'kernel_size': [3, 3, 3, 3],
-            'pool_size': [2, 2, 2, 2],
-            'activation': 'relu',
-            'latent_size': 256,
-            'dense_size': 7 * 7 * 128,
-            'output_shape': (7, 7, 128),
-            'transposed_conv_layers': 3,
-            'transposed_filters': [128, 64, 32],
-            'transposed_kernel_size': [3, 3, 3],
-            'transposed_strides': [2, 2, 1],
-            'learning_rate': 0.1,
-            'batch_size': 32,
-            'epochs': 30
-        },{
-            'input_shape': (28, 28, 1),
-            'conv_layers': 3,
-            'filters': [32, 64, 128],
-            'kernel_size': [3, 3, 3],
-            'pool_size': [2, 2, 2],
-            'activation': 'relu',
-            'latent_size': 256,
-            'dense_size': 7 * 7 * 128,
-            'output_shape': (7, 7, 128),
-            'transposed_conv_layers': 4,
-            'transposed_filters': [256, 128, 64, 32],
-            'transposed_kernel_size': [3, 3, 3, 3],
-            'transposed_strides': [2, 2, 2, 1],
+            'transposed_strides': [2, 2, 1],  # Adjusted strides to ensure correct output size
             'learning_rate': 0.001,
             'batch_size': 32,
-            'epochs': 30
-        },{
+            'epochs': 20,  # Reduced to match the updated requirements
+            'operator_weight': 3.0
+        },
+       {
             'input_shape': (28, 28, 1),
-            'conv_layers': 3,
-            'filters': [32, 64, 128],
-            'kernel_size': [3, 3, 3],
-            'pool_size': [2, 2, 2],
-            'activation': 'relu',
-            'latent_size': 256,
-            'dense_size': 7 * 7 * 128,
-            'output_shape': (7, 7, 128),
-            'transposed_conv_layers': 4,
-            'transposed_filters': [256, 128, 64, 32],
-            'transposed_kernel_size': [3, 3, 3, 3],
-            'transposed_strides': [2, 2, 2, 1],
-            'learning_rate': 0.01,
-            'batch_size': 32,
-            'epochs': 30
-        },{
-            'input_shape': (28, 28, 1),
-            'conv_layers': 3,
-            'filters': [32, 64, 128],
-            'kernel_size': [3, 3, 3],
-            'pool_size': [2, 2, 2],
-            'activation': 'relu',
-            'latent_size': 256,
-            'dense_size': 7 * 7 * 128,
-            'output_shape': (7, 7, 128),
-            'transposed_conv_layers': 4,
-            'transposed_filters': [256, 128, 64, 32],
-            'transposed_kernel_size': [3, 3, 3, 3],
-            'transposed_strides': [2, 2, 2, 1],
-            'learning_rate': 0.1,
-            'batch_size': 32,
-            'epochs': 30
-        },{
-            'input_shape': (28, 28, 1),
-            'conv_layers': 4,
-            'filters': [32, 64, 128, 256],
+            'conv_layers': 4,  # Increased number of convolutional layers
+            'filters': [32, 64, 128, 256],  # Added an extra layer with higher filter count
             'kernel_size': [3, 3, 3, 3],
             'pool_size': [2, 2, 2, 2],
             'activation': 'relu',
-            'latent_size': 256,
-            'dense_size': 7 * 7 * 128,
-            'output_shape': (7, 7, 128),
-            'transposed_conv_layers': 4,
-            'transposed_filters': [256, 128, 64, 32],
-            'transposed_kernel_size': [3, 3, 3, 3],
-            'transposed_strides': [2, 2, 2, 1],
+            'latent_size': 128,  # Increased latent size for a richer latent space
+            'dense_size': 7 * 7 * 256,  # Recalculated dense size (based on the final output dimensions of the encoder)
+            'output_shape': (7, 7, 256),  # Adjusted output shape to match the dense size
+            'transposed_conv_layers': 3,  # Three transposed convolutional layers
+            'transposed_filters': [256, 128, 64],
+            'transposed_kernel_size': [3, 3, 3],
+            'transposed_strides': [2, 2, 1],  # Adjusted strides to ensure correct output size
             'learning_rate': 0.001,
             'batch_size': 32,
-            'epochs': 30
-        },{
-            'input_shape': (28, 28, 1),
-            'conv_layers': 4,
-            'filters': [32, 64, 128, 256],
-            'kernel_size': [3, 3, 3, 3],
-            'pool_size': [2, 2, 2, 2],
-            'activation': 'relu',
-            'latent_size': 256,
-            'dense_size': 7 * 7 * 128,
-            'output_shape': (7, 7, 128),
-            'transposed_conv_layers': 4,
-            'transposed_filters': [256, 128, 64, 32],
-            'transposed_kernel_size': [3, 3, 3, 3],
-            'transposed_strides': [2, 2, 2, 1],
-            'learning_rate': 0.01,
-            'batch_size': 32,
-            'epochs': 30
-        },{
-            'input_shape': (28, 28, 1),
-            'conv_layers': 4,
-            'filters': [32, 64, 128, 256],
-            'kernel_size': [3, 3, 3, 3],
-            'pool_size': [2, 2, 2, 2],
-            'activation': 'relu',
-            'latent_size': 256,
-            'dense_size': 7 * 7 * 128,
-            'output_shape': (7, 7, 128),
-            'transposed_conv_layers': 4,
-            'transposed_filters': [256, 128, 64, 32],
-            'transposed_kernel_size': [3, 3, 3, 3],
-            'transposed_strides': [2, 2, 2, 1],
-            'learning_rate': 0.1,
-            'batch_size': 32,
-            'epochs': 30
-        }
+            'epochs': 20,  # Reduced to match the updated requirements
+            'operator_weight': 4.0
+        },
+        
         # Add more configurations as needed
     ]
 
@@ -457,14 +311,25 @@ if MULTIPLE_TRAINING:
         learning_rate = config['learning_rate']
         batch_size = config['batch_size']
         epochs = config['epochs']
+        op_weight = config['operator_weight']
 
         # Build shared CNNs for inputs
         input1, features1 = build_shared_cnn(input_shape, conv_layers, filters, kernel_size, pool_size, activation)
         input2, features2 = build_shared_cnn(input_shape, conv_layers, filters, kernel_size, pool_size, activation)
         operator_input, operator_features = build_shared_cnn(input_shape, conv_layers, filters, kernel_size, pool_size, activation)
 
+        # Define the weight for the operator
+        operator_weight = tf.constant(op_weight, dtype=tf.float32)
+
+        # Expand dimensions to match the shape of operator features
+        operator_weight_tensor = tf.reshape(operator_weight, (1, 1, 1, 1))
+
+        # Add weight to operator features
+        # operator_weight = 2.0  # You can tune this value
+        weighted_operator_features = Multiply()([operator_features, operator_weight_tensor])
+
         # Merge features
-        merged_features = concatenate([features1, features2, operator_features])
+        merged_features = concatenate([features1, operator_features, features2])
 
         # Latent space
         latent = Dense(latent_size, activation=activation)(merged_features)
@@ -475,6 +340,9 @@ if MULTIPLE_TRAINING:
 
         # Define the model
         model = Model(inputs=[input1, input2, operator_input], outputs=[output1, output2])
+
+        # Model Summary
+        model.summary()
 
         # Compile the model
         model.compile(optimizer=Adam(learning_rate=learning_rate), loss='mse', metrics=['mse', 'mse'])
@@ -490,11 +358,13 @@ if MULTIPLE_TRAINING:
         )
 
         # Save the model and history
-        model_name = f'ModelResults/model__convlayers{conv_layers}_latent{latent_size}_transposed_conv_layers{transposed_conv_layers}_learningrate{learning_rate}_batch_size{batch_size}_epochs{epochs}.h5'
+        # model_name = f'ModelResults/model__convlayers{conv_layers}_latent{latent_size}_transposed_conv_layers{transposed_conv_layers}_learningrate{learning_rate}_batch_size{batch_size}_epochs{epochs}_size100k.h5'
+        model_name = f'gen2_weight{op_weight}.h5'
         model.save(model_name)
         print(f"Model saved as {model_name}")
 
-        history_path = f'HistoryResults/history_convlayers{conv_layers}_latent{latent_size}_transposed_conv_layers{transposed_conv_layers}_learningrate{learning_rate}_batch_size{batch_size}_epochs{epochs}.npy'
+        # history_path = f'HistoryResults/history_convlayers{conv_layers}_latent{latent_size}_transposed_conv_layers{transposed_conv_layers}_learningrate{learning_rate}_batch_size{batch_size}_epochs{epochs}_size100k.npy'
+        history_path = f'gen2_weight{op_weight}.npy'
         np.save(history_path, history.history)
         print(f"Training history saved as {history_path}")
 
@@ -519,7 +389,7 @@ else:
 
     learning_rate = 0.001
     batch_size = 32
-    epochs = 20
+    epochs = 15
 
     # Build shared CNNs for inputs
     input1, features1 = build_shared_cnn(input_shape, conv_layers, filters, kernel_size, pool_size, activation)
@@ -559,6 +429,8 @@ else:
     model.save('parameterized_model.h5')
 
 
+
+
     # Plot training and validation loss
     plt.figure(figsize=(12, 5))
     plt.plot(history.history['loss'], label='Training Loss', color='blue')
@@ -569,4 +441,5 @@ else:
     plt.legend()
     plt.show()
 
-
+stop_time = time.time()
+print(f'Total time: {stop_time-start_time} seconds.')

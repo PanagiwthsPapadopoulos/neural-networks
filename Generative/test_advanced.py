@@ -15,7 +15,7 @@ from tensorflow.keras.preprocessing.image import img_to_array, array_to_img
 custom_objects = {'mse': MeanSquaredError()}
 
 # Load the model from the .h5 file
-model = load_model('arithmetic_model_100kdataset_150iter.h5', custom_objects=custom_objects)
+model = load_model('ModelResults/gen2.h5', custom_objects=custom_objects)
 
 # Load MNIST dataset
 (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
@@ -82,7 +82,7 @@ def display_prediction(input1, input2, operator_input, output1, output2):
     # Input 2
     plt.subplot(1, 5, 3)
     plt.imshow(input2.reshape(size), cmap='gray')
-    plt.title("Input 2")
+    plt.title("Input 3")
     plt.axis('off')
     
     # Predicted Output 1
