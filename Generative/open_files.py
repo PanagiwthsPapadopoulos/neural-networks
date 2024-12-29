@@ -17,7 +17,7 @@ for file_name in files:
 
     print("Available keys in history:", history_data.keys())
 
-    plt.figure(1)
+    plt.figure(2)
     plt.plot(history_data['loss'], label='Training Loss')
     plt.plot(history_data['val_loss'], label='Validation Loss')
     plt.xticks(range(1, len(history_data['loss']) ))
@@ -28,23 +28,8 @@ for file_name in files:
     # plt.show()
 
 
-    # First output
-    # plt.plot(history_data['conv2d_transpose_19_loss'], label='Training Loss (Output 1)')
-    # plt.plot(history_data['val_conv2d_transpose_19_loss'], label='Validation Loss (Output 1)')
-    # plt.xlabel('Epochs')
-    # plt.ylabel('Loss')
-    # plt.title('Loss for Output 1')
-    # plt.legend()
-    # plt.show()
-
-    # Second output
-    # plt.plot(history_data['conv2d_transpose_23_loss'], label='Training Loss (Output 2)')
-    # plt.plot(history_data['val_conv2d_transpose_23_loss'], label='Validation Loss (Output 2)')
-    # plt.xlabel('Epochs')
-    # plt.ylabel('Loss')
-    # plt.title('Loss for Output 2')
-    # plt.legend()
-    # plt.show()
+    operator_loss = history_data['operator_output_loss']
+    val_operator_loss = history_data['val_operator_output_loss']
 
 
 
@@ -78,13 +63,15 @@ for file_name in files:
         }
         
         return output_keys
+    
+    
 
     output_keys = find_output_keys_dynamically(history_data.keys())
 
     print(output_keys)
 
     # First output
-    plt.figure(2)
+    plt.figure(1)
     plt.plot(history_data[output_keys['output1_mse']], label='Training MSE (Output 1)')
     plt.plot(history_data[output_keys['val_output1_mse']], label='Validation MSE (Output 1)')
     plt.xlabel('Epochs')
@@ -101,6 +88,22 @@ for file_name in files:
     plt.xticks(range(1, len(history_data['loss'])))
     plt.title('MSE for both Outputs')
     plt.legend()
+
+    # Operand output ce
+    plt.plot(history_data['operator_output_categorical_crossentropy'], label='Training Loss (Operand ce)')
+    plt.plot(history_data['val_operator_output_categorical_crossentropy'], label='Validation Loss (Operand ce)')
+    plt.xlabel('Epochs')
+    plt.ylabel('Loss')
+    plt.title('Operand Identification Loss')
+    plt.legend()
+
+    # # Operand output 
+    # plt.plot(history_data['operator_output_loss'], label='Training Loss (Operand)')
+    # plt.plot(history_data['val_operator_output_loss'], label='Validation Loss (Operand)')
+    # plt.xlabel('Epochs')
+    # plt.ylabel('Loss')
+    # plt.title('Operand Identification Loss')
+    # plt.legend()
     plt.show()
 
 
@@ -122,3 +125,5 @@ for file_name in files:
     # plt.title('Validation Loss for All Outputs')
     # plt.legend()
     # plt.show()
+    # Extract relevant metrics
+    
