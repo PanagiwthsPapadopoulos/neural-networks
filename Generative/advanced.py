@@ -415,7 +415,7 @@ if MULTIPLE_TRAINING:
             loss_weights={
                 'output1': 1.0,                    # Weight for Image Output 1
                 'output2': 1.0,                    # Weight for Image Output 2
-                'operator_output': 0.5,            # Weight for Operator
+                'operator_output': 3.0,            # Weight for Operator
             },
             metrics={
                 'output1': ['mse'],
@@ -439,12 +439,12 @@ if MULTIPLE_TRAINING:
 
         # Save the model and history
         # model_name = f'ModelResults/model__convlayers{conv_layers}_latent{latent_size}_transposed_conv_layers{transposed_conv_layers}_learningrate{learning_rate}_batch_size{batch_size}_epochs{epochs}_size100k.h5'
-        model_name = f'ModelResults/weighted_loss.h5'
+        model_name = f'ModelResults/weighted_loss_3.h5'
         model.save(model_name, save_format='tf')
         print(f"Model saved as {model_name}")
 
         # history_path = f'HistoryResults/history_convlayers{conv_layers}_latent{latent_size}_transposed_conv_layers{transposed_conv_layers}_learningrate{learning_rate}_batch_size{batch_size}_epochs{epochs}_size100k.npy'
-        history_path = f'HistoryResults/weighted_loss.npy'
+        history_path = f'HistoryResults/weighted_loss_3.npy'
         np.save(history_path, history.history)
         print(f"Training history saved as {history_path}")
 

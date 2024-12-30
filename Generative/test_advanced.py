@@ -11,7 +11,7 @@ from tensorflow.keras.losses import MeanSquaredError, CategoricalCrossentropy
 import h5py
 from tensorflow.keras.models import load_model
 
-with h5py.File('ModelResults/weighted_loss.h5', 'r') as f:
+with h5py.File('ModelResults/weighted_loss_2.h5', 'r') as f:
     print(list(f.keys())) 
 
 def custom_loss(alpha=1.0, beta=1.0):
@@ -47,7 +47,7 @@ custom_objects = {
 }
 
 # Load the model from the .h5 file
-model = load_model('ModelResults/test.h5', custom_objects=custom_objects)
+model = load_model('ModelResults/weighted_loss_5.h5', custom_objects=custom_objects)
 
 # Load MNIST dataset
 (train_images, train_labels), (test_images, test_labels) = mnist.load_data()
