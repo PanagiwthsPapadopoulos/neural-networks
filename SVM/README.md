@@ -55,3 +55,11 @@ The models' performance was compared using various metrics and visualized for be
 This project successfully implemented and compared three different image classification models on the CIFAR-10 dataset. The SVM, KNN, and MLP models were evaluated, and the results showed how each model performed under different conditions and parameter settings. 
 
 The findings can be used to draw conclusions about the trade-offs between classical machine learning models like SVM and KNN, and more complex models like MLP, when applied to image classification tasks.
+
+## Acknowledgments
+
+- **CIFAR-10 Dataset**: [CIFAR-10 Dataset](https://www.cs.toronto.edu/~kriz/cifar.html)
+- **Keras**: [Keras Documentation](https://keras.io/)
+- **TensorFlow**: [TensorFlow Documentation](https://www.tensorflow.org/)
+- **Scikit-learn**: [Scikit-learn Documentation](https://scikit-learn.org/)
+- **NumPy**: [NumPy Documentation](https://numpy.org/)
