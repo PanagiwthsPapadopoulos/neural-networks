@@ -1,4 +1,4 @@
-# Project 2: Image Classification with Support Vector Machine (SVM), KNN, and MLP
+# Image Classification with Support Vector Machine (SVM), KNN, and MLP
 
 ## Overview
 
