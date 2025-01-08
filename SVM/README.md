@@ -1,4 +1,4 @@
-# README for Project 2: Image Classification with Support Vector Machine (SVM), KNN, and MLP
+# Project 2: Image Classification with Support Vector Machine (SVM), KNN, and MLP
 
 ## Overview
 
