@@ -8,7 +8,7 @@ This repository contains three different machine learning projects, each designe
    - This project demonstrates the use of deep learning models for image classification, utilizing Keras and TensorFlow for building and training the models. The project involves using the tiny-imagenet dataset and includes training, evaluation, and testing the models.
    
 2. **SVM, KNN and NCC for Image Classification**
-   - This project focuses on K-Nearest Neighbors (KNN) and Normalized Cross-Correlation (NCC) techniques for image classification for the Cifar-10 dataset. It involves testing both methods on the dataset and comparing their performance.
+   - This project focuses on a Support Vector Machine for image classification for the Cifar-10 dataset. Other techniques are used, such as K-Nearest Neighbors (KNN), Nearest Class Centroid (NCC) and a Convolutional Neural Network for comparison. It involves testing the above methods on the dataset and comparing their performance.
 
 3. **Encoder-Decoder Network for MNIST Image Generation**
    - In this project, we implement an Encoder-Decoder Network to output images the MNIST dataset format of mathematical operations from 3 input images, two numbers and an operator. The model is tested, and detailed output images are evaluated to showcase the performance of the network.
