@@ -38,6 +38,13 @@ The network consists of convolutional layers followed by transposed convolutiona
 
 The model is evaluated on a test set of images where the output will be compared to the expected results for different mathematical operations. The network's performance is measured in terms of accuracy, and the final output images are visualized.
 
+## Trained Neural Network Model
+
+The complete trained model for this project can be accessed via the following link:
+
+[Download Trained Model](https://drive.google.com/file/d/1LlQKu3azef3dr3wNWdJC9h2ZWwt5Y7QF/view?usp=drive_link)
+
+
 ## Acknowledgments
 
 - **MNIST Dataset**: [MNIST Database](http://yann.lecun.com/exdb/mnist/)

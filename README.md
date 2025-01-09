@@ -23,6 +23,12 @@ git clone https://github.com/PanagiwthsPapadopoulos/neural-networks.git
 
 Results for each project can be found in the respective output files or in the generated logs. These results include metrics like accuracy, precision, recall, and other relevant data to assess model performance.
 
+## Trained Neural Network Model
+
+The complete trained model for this project can be accessed via the following link:
+
+[Download Trained Model](https://drive.google.com/file/d/1LlQKu3azef3dr3wNWdJC9h2ZWwt5Y7QF/view?usp=drive_link)
+
 ---
 
 ## Acknowledgments
