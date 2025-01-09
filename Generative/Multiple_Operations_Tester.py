@@ -12,34 +12,6 @@ import h5py
 from tensorflow.keras.models import load_model
 
 
-
-def custom_loss(alpha=1.0, beta=1.0):
-    mse_loss = MeanSquaredError()
-    cce_loss = CategoricalCrossentropy()
-
-    def loss(y_true, y_pred):
-        # Split y_true and y_pred
-        output1_true = y_true[0]
-        output2_true = y_true[1]
-        operator_true = y_true[2]  # Assuming one-hot encoded operator
-        
-        output1_pred = y_pred[0]
-        output2_pred = y_pred[1]
-        operator_pred = y_pred[2]
-
-        # Calculate MSE for image outputs
-        output_image_loss = mse_loss(output1_true, output1_pred) + mse_loss(output2_true, output2_pred)
-
-        # Calculate categorical cross-entropy for operator
-        operator_loss = cce_loss(operator_true, operator_pred)
-
-        # Combine the losses
-        total_loss = alpha * output_image_loss + beta * operator_loss
-        return total_loss
-
-    return loss
-
-
 # Explicitly map 'mse' to the correct metric function
 custom_objects = {
     'mse': MeanSquaredError(),
@@ -143,12 +115,9 @@ def display_prediction(input1, input2, operator_input, output1, output2, top_gue
     plt.text(0.5, 0.45, f"Top 2: {top_guesses_output2[1]}", fontsize=12, ha='center')
     plt.axis('off')
 
-    
     plt.show()
 
 for i in range(0,30):
-
-    
 
     operator = random.choice(['+', '-', '*', '/'])
     match (operator):
@@ -160,33 +129,12 @@ for i in range(0,30):
     image1 = train_images[np.random.randint(0, 500)]
     image2 = train_images[np.random.randint(0, 500)]
 
-
-    # resized_image1 = cv2.resize(image1, (14, 14), interpolation=cv2.INTER_AREA)
-    # # If you need to use the image with a channel dimension for neural networks:
-    # image1 = resized_image1.reshape(14, 14, 1)
-
-
-    # resized_image2 = cv2.resize(image2, (14, 14), interpolation=cv2.INTER_AREA)
-    # # If you need to use the image with a channel dimension for neural networks:
-    # image2 = resized_image2.reshape(14, 14, 1)
-
-
-    # resized_image = cv2.resize(image, (14, 14), interpolation=cv2.INTER_AREA)
-    # # If you need to use the image with a channel dimension for neural networks:
-    # image = resized_image.reshape(14, 14, 1)
-
-
-
-   
-
     # Assume test_input1 and test_input2 are 2D tensors (28, 28)
     test_input1 = np.expand_dims(image1, axis=0)  # Add batch dimension
     # test_input1 = np.expand_dims(image1, axis=-1)  # Add channel dimension
 
     test_input2 = np.expand_dims(image2, axis=0)  # Add batch dimension
     # test_input2 = np.expand_dims(image2, axis=-1)  # Add channel dimension
-
-    
 
     operator_image = np.expand_dims(image, axis=0)
     # image = np.expand_dims(image, axis = -1)

@@ -20,11 +20,6 @@ from tensorflow.keras.losses import MeanSquaredError, CategoricalCrossentropy
 
 ds = deeplake.load("hub://activeloop/hasy-test")
 
-# 112 minus 
-# 113 plus
-# 131 multiplication
-# 138 division
-
 ADDITION = 113
 SUBTRACTION = 112
 MULTIPLICATION = 131
@@ -148,14 +143,6 @@ def generate_dataset_with_operator_images(num_samples=50000, operator_images=Non
         operator_input = get_op_image(operator)
         output1_img = get_mnist_image(output1)
         output2_img = get_mnist_image(output2)
-        
-        # Plot the first operator image
-        # if _ == 0:  # Plot only the first operator image
-        #     plt.imshow(operator_input.reshape(28, 28), cmap='gray')
-        #     plt.title(f"Operator: {operator}")
-        #     plt.axis('off')
-        #     plt.show()
-
 
         # Append to dataset
         input1_images.append(input1)
@@ -225,43 +212,6 @@ def display_prediction(input1, input2, operator_input, output1, output2, operato
 # Generate dataset
 X1, X2, Ops, Y1, Y2, Op_labels = generate_dataset_with_operator_images(num_samples=50000)
 
-# ind=0
-# display_prediction(X1[ind], X2[ind], Ops[ind], Y1[ind], Y2[ind], Op_labels[ind])
-# ind=18749
-# display_prediction(X1[ind], X2[ind], Ops[ind], Y1[ind], Y2[ind], Op_labels[ind])
-# ind=18750
-# display_prediction(X1[ind], X2[ind], Ops[ind], Y1[ind], Y2[ind], Op_labels[ind])
-# ind=37499
-# display_prediction(X1[ind], X2[ind], Ops[ind], Y1[ind], Y2[ind], Op_labels[ind])
-# ind=37500
-# display_prediction(X1[ind], X2[ind], Ops[ind], Y1[ind], Y2[ind], Op_labels[ind])
-# ind = 43749
-# display_prediction(X1[ind], X2[ind], Ops[ind], Y1[ind], Y2[ind], Op_labels[ind])
-# ind = 43750
-# display_prediction(X1[ind], X2[ind], Ops[ind], Y1[ind], Y2[ind], Op_labels[ind])
-# ind=62499
-# display_prediction(X1[ind], X2[ind], Ops[ind], Y1[ind], Y2[ind], Op_labels[ind])
-
-# size=(14, 14)
-# images = X1
-# X1 = np.array([img_to_array(array_to_img(im, scale=False).resize(size)) for im in images])
-# X1 = X1.reshape((-1, size[0], size[1], 1))
-
-# images = X2
-# X2 = np.array([img_to_array(array_to_img(im, scale=False).resize(size)) for im in images])
-# X2 = X2.reshape((-1, size[0], size[1], 1))
-
-# images = Ops
-# Ops = np.array([img_to_array(array_to_img(im, scale=False).resize(size)) for im in images])
-# Ops = Ops.reshape((-1, size[0], size[1], 1))
-
-# images = Y1
-# resized_images = np.array([img_to_array(array_to_img(im, scale=False).resize(size)) for im in images])
-# resized_images.reshape((-1, size[0], size[1], 1))
-
-# images = Y2
-# resized_images = np.array([img_to_array(array_to_img(im, scale=False).resize(size)) for im in images])
-# resized_images.reshape((-1, size[0], size[1], 1))
 
 
 # Parameterized shared CNN for feature extraction
