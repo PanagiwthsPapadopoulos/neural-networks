@@ -70,11 +70,7 @@ python PanagiotisPapadopoulos10697Ergasia1Results.py
 ```
 
 ### View the Report
-For a detailed analysis of the model, training procedure, and results, refer to the `PapadopoulosPanagiotis10697Ergasia1.pdf` report. The report includes:
-- A detailed summary of the model architecture and its performance.
-- Graphs that visualize the accuracy and loss curves during training and validation.
-- A comparison of the results across different hyperparameter configurations.
-- A summary of the best performing configuration along with its final accuracy on the test set.
+For a detailed analysis of the model, training procedure, and results, refer to the `PapadopoulosPanagiotis10697Ergasia1.pdf` report. 
 
 ## Results
 
